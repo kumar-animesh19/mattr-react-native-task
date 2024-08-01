@@ -19,7 +19,9 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.filter}>Filter</Text>
+        <TouchableOpacity>
+          <Text style={styles.filter}>Filter</Text>
+        </TouchableOpacity>
         <Text style={styles.header}>Daily Connections</Text>
         <TouchableOpacity style={styles.refreshButton}>
             <Text style={styles.refreshButtonText}>Refresh</Text>
