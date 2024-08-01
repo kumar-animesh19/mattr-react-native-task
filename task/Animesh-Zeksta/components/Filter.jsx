@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import RadioGroup from 'react-native-radio-buttons-group';
 import CustomRadioButton from './CustomRadioButton';
 import RNPickerSelect from 'react-native-picker-select';
 
