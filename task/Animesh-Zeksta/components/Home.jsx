@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import ProfileCard from './ProfileCard';
 import data from '../data.json'
+import { useNavigation } from '@react-navigation/native';
 
 const Home = () => {
+  const navigation = useNavigation();
   const [connections, setConnections] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
   const getRandomData = (array) => {
     const shuffledData = array.sort(() => Math.random() - 0.5);
@@ -14,16 +17,16 @@ const Home = () => {
   useEffect(() => {
     const randomData = getRandomData(data);
     setConnections(randomData);
-  }, []);
+  }, [refresh]);
 
   return (
     <View style={styles.container}>
       <View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Filter')}>
           <Text style={styles.filter}>Filter</Text>
         </TouchableOpacity>
         <Text style={styles.header}>Daily Connections</Text>
-        <TouchableOpacity style={styles.refreshButton}>
+        <TouchableOpacity style={styles.refreshButton} onPress={()=> setRefresh(!refresh)}>
             <Text style={styles.refreshButtonText}>Refresh</Text>
         </TouchableOpacity>
       </View>

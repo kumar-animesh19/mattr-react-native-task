@@ -1,15 +1,20 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import moment from 'moment';
 
 const ProfileCard = ({ connection }) => {
+  const calculateAge = (dob) => {
+    return moment().diff(moment(dob, 'DD/MM/YYYY'), 'years');
+  };
+
   return (
     <View style={styles.container}>
          <Image
              style={styles.image}
-             source={require("../assets/pic.png")}
+             source={{ uri: connection.photos[0].path }}
          />
          <View style={styles.details}>
-             <Text style={styles.name}>{connection.first_name} {connection.last_name}, 23</Text>
+             <Text style={styles.name}>{connection.first_name} {connection.last_name}, {calculateAge(connection.dob)}</Text>
              <Text style={styles.location}>{connection.location.city}, {connection.location.country}</Text>
              <TouchableOpacity style={styles.viewProfileButton}>
                 <Text style={styles.viewProfileButtonText}>View Profile</Text>
@@ -29,6 +34,7 @@ const styles = StyleSheet.create({
   image: {
     width: 300,
     height: 200,
+    resizeMode: 'cover',
   },
   card: {
     backgroundColor: '#ce1694',
