@@ -28,6 +28,10 @@ const Filter = () => {
         setSelectedValue();
     }
 
+    const handleApplyFilter = () =>{
+        navigation.navigate('HomeTabs', { gender: selectedGender, age: selectedAge, value: selectedValue });
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.headerContainer}>
@@ -71,7 +75,7 @@ const Filter = () => {
                     </Picker>
                 </View>
             </View>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={handleApplyFilter}>
                 <Text style={styles.buttonText}>Apply Filters</Text>
             </TouchableOpacity>
         </View>

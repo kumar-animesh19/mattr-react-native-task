@@ -11,7 +11,8 @@ import OtherProfile from './components/OtherProfile';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function HomeTabs() {
+function HomeTabs({ route }) {
+  const { gender, age, value } = route.params || {};
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -33,7 +34,7 @@ function HomeTabs() {
     >
       <Tab.Screen 
         name="Activity" 
-        component={Home} 
+        children={ () => <Home gender={gender} age={age} value={value} /> } 
         options={{ headerShown: false }}
       />
       <Tab.Screen 
