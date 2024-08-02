@@ -42,7 +42,8 @@ const Home = () => {
 const styles = StyleSheet.create({
   container:{
     paddingVertical: 50,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
+    backgroundColor: '#e8dfe5'
   },
   filter:{
     textAlign: 'right',
@@ -67,10 +68,11 @@ const styles = StyleSheet.create({
   refreshButtonText:{
     color: '#ce1694',
     fontSize: 16,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    
   },
   listContainer: {
-    paddingBottom: 30
+    paddingBottom: 30,
   },
 });
 

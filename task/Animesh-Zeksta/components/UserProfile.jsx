@@ -22,7 +22,7 @@ const UserProfile = () => {
     };
 
     return (
-        <View style={styles.container}>
+        <View>
             <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
                 <Icon name="close" size={30} color="black" />
             </TouchableOpacity>

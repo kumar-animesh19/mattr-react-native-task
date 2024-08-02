@@ -80,8 +80,9 @@ const Filter = () => {
 
 const styles = StyleSheet.create({
     container: {
-        marginVertical: 50,
-        marginHorizontal: 15,
+        paddingVertical: 50,
+        paddingHorizontal: 15,
+        backgroundColor: '#e8dfe5'
     },
     headerContainer: {
         flexDirection: 'row',
