@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import moment from "moment";
 import { useNavigation } from "@react-navigation/native";
 
-const ProfileCard = ({ connection }) => {
+const ProfileCard = ({ connection, index }) => {
   const navigation = useNavigation();
   const [imageUri, setImageUri] = useState({uri: connection.photos[0].path});
   const calculateAge = (dob) => {
@@ -20,6 +20,11 @@ const ProfileCard = ({ connection }) => {
         source={imageUri}
         onError={()=> setImageUri(require('../assets/pic.png'))}
       />
+      {index === 0 && (
+          <View style={styles.topMatchLabel}>
+            <Text style={styles.topMatchText}>Top Match</Text>
+          </View>
+        )}
       <View style={styles.details}>
         <Text style={styles.name}>
           {connection.first_name} {connection.last_name},{" "}
@@ -51,6 +56,19 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 200,
     resizeMode: "cover",
+  },
+  topMatchLabel: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    backgroundColor: "black",
+    borderRadius: 15,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  topMatchText: {
+    color: "white",
+    fontWeight: "bold",
   },
   card: {
     backgroundColor: "#ce1694",

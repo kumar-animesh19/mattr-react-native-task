@@ -25,6 +25,14 @@ const Home = () => {
   const filterData = (data) => {
     let { gender, age, value } = filters.current;
     if (gender || age || value) {
+      if(value){
+        if(value == 'score'){
+          data = data.sort((a,b) => moment(b.score).diff(moment(a.score)))
+        }
+        else{
+          data = data.sort((a, b) => moment(b.created_at).diff(moment(a.created_at)));
+        }
+      }
       if (gender) {
         data = data.filter((item) => item.gender === gender);
       }
@@ -99,7 +107,7 @@ const Home = () => {
         showsVerticalScrollIndicator={false}
       >
         {connections.map((connection, index) => (
-          <ProfileCard key={index} connection={connection} />
+          <ProfileCard key={index} connection={connection} index={index}/>
         ))}
       </ScrollView>
     </View>
