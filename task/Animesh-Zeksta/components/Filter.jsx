@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import CustomRadioButton from './CustomRadioButton';
-import RNPickerSelect from 'react-native-picker-select';
+import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 
 const Filter = () => {
     const navigation = useNavigation();
-    const [selectedGender, setSelectedGender] = useState('male');
-    const [selectedAge, setSelectedAge] = useState('25-30');
-    const [selectedValue, setSelectedValue] = useState('score');
+    const [selectedGender, setSelectedGender] = useState();
+    const [selectedAge, setSelectedAge] = useState();
+    const [selectedValue, setSelectedValue] = useState();
 
     const genderOptions = [
         { label: 'MALE', value: 'male' },
@@ -22,61 +22,65 @@ const Filter = () => {
         { label: '40+', value: '40+' },
     ];
 
-    const handleValueChange = (value) => {
-        setSelectedValue(value);
-    };
-  return (
-    <View style={styles.container}>
-        <View style={styles.headerContainer}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Text style={styles.cancelText}>Cancel</Text>
-            </TouchableOpacity>
-            <Text style={styles.filterText}>Filter</Text>
-            <TouchableOpacity>
-                <Text style={styles.cancelText}>Clear All</Text>
-            </TouchableOpacity>
-        </View>
-        <View style={styles.divider} />
-        <View style={styles.radioGroupContainer}>
+    const handleClearAll = () => {
+        setSelectedGender();
+        setSelectedAge();
+        setSelectedValue();
+    }
+
+    return (
+        <View style={styles.container}>
+            <View style={styles.headerContainer}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Text style={styles.cancelText}>Cancel</Text>
+                </TouchableOpacity>
+                <Text style={styles.filterText}>Filter</Text>
+                <TouchableOpacity onPress={handleClearAll}>
+                    <Text style={styles.cancelText}>Clear All</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.divider} />
+            <View style={styles.radioGroupContainer}>
                 <Text style={styles.gender}>Gender</Text>
                 <CustomRadioButton
                     options={genderOptions}
                     selectedOption={selectedGender}
                     onSelect={setSelectedGender}
                 />
-        </View>
-        <View style={styles.divider} />
-        <View style={styles.radioGroupContainer}>
+            </View>
+            <View style={styles.divider} />
+            <View style={styles.radioGroupContainer}>
                 <Text style={styles.gender}>Age Ranges</Text>
                 <CustomRadioButton
                     options={ageOptions}
                     selectedOption={selectedAge}
                     onSelect={setSelectedAge}
                 />
+            </View>
+            <View style={styles.divider} />
+            <View style={styles.radioGroupContainer}>
+                <Text style={styles.gender}>Sort by</Text>
+                <View style={styles.pickerContainer}>
+                    <Picker
+                        selectedValue={selectedValue}
+                        onValueChange={(itemValue) => setSelectedValue(itemValue)}
+                        style={styles.picker}
+                    >
+                        <Picker.Item label="Score" value="score" />
+                        <Picker.Item label="Date Joined" value="date joined" />
+                    </Picker>
+                </View>
+            </View>
+            <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>Apply Filters</Text>
+            </TouchableOpacity>
         </View>
-        <View style={styles.divider} />
-        <View style={styles.radioGroupContainer}>
-            <Text style={styles.gender}>Sort by</Text>
-            <RNPickerSelect
-                onValueChange={handleValueChange}
-                value={selectedValue}
-                items={[
-                { label: 'Score', value: 'score' },
-                { label: 'Date Joined', value: 'date joined' },
-                ]}
-                style={styles.input}
-            />
-        </View>
-        <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Apply Filters</Text>
-        </TouchableOpacity>
-    </View>
-  )
+    );
 }
 
 const styles = StyleSheet.create({
     container: {
-        marginVertical:50,
+        marginVertical: 50,
         marginHorizontal: 15,
     },
     headerContainer: {
@@ -84,7 +88,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginBottom: 30
     },
-    cancelText:{
+    cancelText: {
         color: '#ce1694',
         fontSize: 16,
         fontWeight: 'bold'
@@ -99,22 +103,22 @@ const styles = StyleSheet.create({
         marginVertical: 20,
     },
     gender: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold',
         marginVertical: 10
     },
     radioGroupContainer: {
         marginHorizontal: 15
     },
-    input: {
-        fontSize: 16,
-        paddingHorizontal: 10,
-        paddingVertical: 8,
+    pickerContainer: {
         borderWidth: 1,
         borderColor: 'gray',
         borderRadius: 8,
-        color: 'black',
-        paddingRight: 30,
+        overflow: 'hidden',
+    },
+    picker: {
+        height: 50,
+        width: '100%',
     },
     button: {
         backgroundColor: '#ce1694',
@@ -123,12 +127,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 60,
         marginTop: 200,
     },
-    buttonText:{
+    buttonText: {
         color: 'white',
         fontSize: 16,
         fontWeight: 'bold',
         textAlign: 'center'
     },
-});  
+});
 
 export default Filter;
