@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   listContainer: {
-    paddingBottom: 200
+    paddingBottom: 30
   },
 });
 

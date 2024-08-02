@@ -1,10 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import moment from 'moment';
+import { useNavigation } from '@react-navigation/native';
 
 const ProfileCard = ({ connection }) => {
+  const navigation = useNavigation();
   const calculateAge = (dob) => {
     return moment().diff(moment(dob, 'DD/MM/YYYY'), 'years');
+  };
+
+  const handleViewProfile = () => {
+    navigation.navigate('OtherProfile', { connection });
   };
 
   return (
@@ -16,7 +22,7 @@ const ProfileCard = ({ connection }) => {
          <View style={styles.details}>
              <Text style={styles.name}>{connection.first_name} {connection.last_name}, {calculateAge(connection.dob)}</Text>
              <Text style={styles.location}>{connection.location.city}, {connection.location.country}</Text>
-             <TouchableOpacity style={styles.viewProfileButton}>
+             <TouchableOpacity style={styles.viewProfileButton} onPress={handleViewProfile}>
                 <Text style={styles.viewProfileButtonText}>View Profile</Text>
              </TouchableOpacity>
          </View>
@@ -29,10 +35,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 15,
     marginBottom: 25,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    width: 320
   },
   image: {
-    width: 300,
+    width: '100%',
     height: 200,
     resizeMode: 'cover',
   },

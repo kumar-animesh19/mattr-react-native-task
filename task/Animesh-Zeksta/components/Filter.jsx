@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import CustomRadioButton from './CustomRadioButton';
 import RNPickerSelect from 'react-native-picker-select';
+import { useNavigation } from '@react-navigation/native';
 
 const Filter = () => {
+    const navigation = useNavigation();
     const [selectedGender, setSelectedGender] = useState('male');
     const [selectedAge, setSelectedAge] = useState('25-30');
     const [selectedValue, setSelectedValue] = useState('score');
@@ -26,7 +28,7 @@ const Filter = () => {
   return (
     <View style={styles.container}>
         <View style={styles.headerContainer}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Text style={styles.cancelText}>Cancel</Text>
             </TouchableOpacity>
             <Text style={styles.filterText}>Filter</Text>
