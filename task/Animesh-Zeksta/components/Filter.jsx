@@ -29,7 +29,7 @@ const Filter = () => {
     }
 
     const handleApplyFilter = () =>{
-        navigation.navigate('HomeTabs', { gender: selectedGender, age: selectedAge, value: selectedValue });
+        navigation.navigate('Activity', { gender: selectedGender, age: selectedAge, value: selectedValue });
     }
 
     return (
@@ -70,6 +70,7 @@ const Filter = () => {
                         onValueChange={(itemValue) => setSelectedValue(itemValue)}
                         style={styles.picker}
                     >
+                        <Picker.Item label="--- Select ---" value="" />
                         <Picker.Item label="Score" value="score" />
                         <Picker.Item label="Date Joined" value="date joined" />
                     </Picker>

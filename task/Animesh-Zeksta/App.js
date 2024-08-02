@@ -11,8 +11,7 @@ import OtherProfile from './components/OtherProfile';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function HomeTabs({ route }) {
-  const { gender, age, value } = route.params || {};
+function HomeTabs() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -24,7 +23,6 @@ function HomeTabs({ route }) {
           } else if (route.name === 'Profile') {
             iconName = 'person-sharp';
           }
-
           return <Icon name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: '#ce1694',
@@ -34,7 +32,7 @@ function HomeTabs({ route }) {
     >
       <Tab.Screen 
         name="Activity" 
-        children={ () => <Home gender={gender} age={age} value={value} /> } 
+        component={Home} 
         options={{ headerShown: false }}
       />
       <Tab.Screen 
