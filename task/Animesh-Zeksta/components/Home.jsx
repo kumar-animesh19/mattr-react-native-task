@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -16,11 +16,14 @@ const Home = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const [connections, setConnections] = useState([]);
-  const [refresh, setRefresh] = useState(false);
-
-  let { gender, age, value } = route.params || {};
+  const filters = useRef({
+    gender: null,
+    age: null,
+    value: null,
+  });
 
   const filterData = (data) => {
+    let { gender, age, value } = filters.current;
     if (gender || age || value) {
       if (gender) {
         data = data.filter((item) => item.gender === gender);
@@ -63,15 +66,22 @@ const Home = () => {
   };
 
   const handleRefresh = () => {
-    gender = undefined;
-    age = undefined;
-    value = undefined;
-    setRefresh(!refresh);
+    filters.current = {
+      gender: undefined,
+      age: undefined,
+      value: undefined,
+    };
+    fetchData();
   };
 
   useEffect(() => {
+    filters.current = {
+      gender: route.params?.gender,
+      age: route.params?.age,
+      value: route.params?.value,
+    };
     fetchData();
-  }, [refresh, gender, age, value]);
+  }, [route.params]);
 
   return (
     <View style={styles.container}>
