@@ -10,7 +10,7 @@ import ProfileCard from "./ProfileCard";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { API_URL } from "@env";
 import axios from "axios";
-import moment from 'moment';
+import moment from "moment";
 
 const Home = () => {
   const navigation = useNavigation();
@@ -21,31 +21,30 @@ const Home = () => {
   let { gender, age, value } = route.params || {};
 
   const filterData = (data) => {
-    if(gender || age || value){
-      if(gender){
-        data =  data.filter((item) => item.gender === gender);
+    if (gender || age || value) {
+      if (gender) {
+        data = data.filter((item) => item.gender === gender);
       }
-      if(age){
+      if (age) {
         const [minAge, maxAge] = parseAgeRange(age);
         data = data.filter((item) => {
-          const age = moment().diff(moment(item.dob, 'DD/MM/YYYY'), 'years');
+          const age = moment().diff(moment(item.dob, "DD/MM/YYYY"), "years");
           return age >= minAge && age <= maxAge;
         });
       }
       const randomData = getRandomData(data);
       setConnections(randomData);
-    }
-    else {
+    } else {
       const randomData = getRandomData(data);
       setConnections(randomData);
     }
-  }
+  };
 
   const parseAgeRange = (ageRange) => {
-    if (ageRange === '40+') {
+    if (ageRange === "40+") {
       return [40, Infinity];
     }
-    const [minAge, maxAge] = ageRange.split('-').map(Number);
+    const [minAge, maxAge] = ageRange.split("-").map(Number);
     return [minAge, maxAge];
   };
 
@@ -63,7 +62,7 @@ const Home = () => {
     }
   };
 
-  const handleRefresh = () =>{
+  const handleRefresh = () => {
     gender = undefined;
     age = undefined;
     value = undefined;
@@ -71,7 +70,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    fetchData(); 
+    fetchData();
   }, [refresh, gender, age, value]);
 
   return (
@@ -81,10 +80,7 @@ const Home = () => {
           <Text style={styles.filter}>Filter</Text>
         </TouchableOpacity>
         <Text style={styles.header}>Daily Connections</Text>
-        <TouchableOpacity
-          style={styles.refreshButton}
-          onPress={handleRefresh}
-        >
+        <TouchableOpacity style={styles.refreshButton} onPress={handleRefresh}>
           <Text style={styles.refreshButtonText}>Refresh</Text>
         </TouchableOpacity>
       </View>
@@ -110,7 +106,7 @@ const styles = StyleSheet.create({
   container: {
     paddingVertical: 50,
     paddingHorizontal: 20,
-    backgroundColor: "#e8dfe5"
+    backgroundColor: "#e8dfe5",
   },
   filter: {
     textAlign: "right",
@@ -142,14 +138,14 @@ const styles = StyleSheet.create({
   },
   noDataContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingVertical: 50,
   },
   noDataText: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#ce1694',
+    fontWeight: "bold",
+    color: "#ce1694",
   },
 });
 

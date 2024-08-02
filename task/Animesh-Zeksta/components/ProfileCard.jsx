@@ -1,86 +1,91 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import moment from 'moment';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import moment from "moment";
+import { useNavigation } from "@react-navigation/native";
 
 const ProfileCard = ({ connection }) => {
   const navigation = useNavigation();
   const calculateAge = (dob) => {
-    return moment().diff(moment(dob, 'DD/MM/YYYY'), 'years');
+    return moment().diff(moment(dob, "DD/MM/YYYY"), "years");
   };
 
   const handleViewProfile = () => {
-    navigation.navigate('OtherProfile', { connection });
+    navigation.navigate("OtherProfile", { connection });
   };
 
   return (
     <View style={styles.container}>
-         <Image
-             style={styles.image}
-             source={{ uri: connection.photos[0].path }}
-         />
-         <View style={styles.details}>
-             <Text style={styles.name}>{connection.first_name} {connection.last_name}, {calculateAge(connection.dob)}</Text>
-             <Text style={styles.location}>{connection.location.city}, {connection.location.country}</Text>
-             <TouchableOpacity style={styles.viewProfileButton} onPress={handleViewProfile}>
-                <Text style={styles.viewProfileButtonText}>View Profile</Text>
-             </TouchableOpacity>
-         </View>
-     </View>
+      <Image style={styles.image} source={{ uri: connection.photos[0].path }} />
+      <View style={styles.details}>
+        <Text style={styles.name}>
+          {connection.first_name} {connection.last_name},{" "}
+          {calculateAge(connection.dob)}
+        </Text>
+        <Text style={styles.location}>
+          {connection.location.city}, {connection.location.country}
+        </Text>
+        <TouchableOpacity
+          style={styles.viewProfileButton}
+          onPress={handleViewProfile}
+        >
+          <Text style={styles.viewProfileButtonText}>View Profile</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container:{
-    alignSelf: 'center',
+  container: {
+    alignSelf: "center",
     borderRadius: 15,
     marginBottom: 25,
-    overflow: 'hidden',
+    overflow: "hidden",
     width: 320,
   },
   image: {
-    width: '100%',
+    width: "100%",
     height: 200,
-    resizeMode: 'cover',
+    resizeMode: "cover",
   },
   card: {
-    backgroundColor: '#ce1694',
+    backgroundColor: "#ce1694",
     borderRadius: 10,
     marginBottom: 20,
     paddingHorizontal: 70,
     paddingVertical: 30,
-    alignItems: 'center',
-    position: 'relative',
+    alignItems: "center",
+    position: "relative",
   },
   details: {
-    backgroundColor: '#f8f9fe',
+    backgroundColor: "#f8f9fe",
     paddingHorizontal: 20,
     paddingTop: 10,
-    paddingBottom: 20
+    paddingBottom: 20,
   },
   name: {
     fontSize: 18,
-    fontWeight: '400',
+    fontWeight: "400",
   },
   location: {
     fontSize: 16,
     marginBottom: 10,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   viewProfileButton: {
     borderWidth: 2,
-    borderColor: '#ce1694',
+    borderColor: "#ce1694",
     borderRadius: 10,
     paddingVertical: 8,
     paddingHorizontal: 60,
     marginTop: 10,
   },
-  viewProfileButtonText:{
-    color: '#ce1694',
+  viewProfileButtonText: {
+    color: "#ce1694",
     fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center'
-  }
+    fontWeight: "bold",
+    textAlign: "center",
+  },
 });
 
 export default ProfileCard;
