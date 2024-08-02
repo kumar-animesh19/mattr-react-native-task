@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import moment from "moment";
 import { useNavigation } from "@react-navigation/native";
 
 const ProfileCard = ({ connection }) => {
   const navigation = useNavigation();
+  const [imageUri, setImageUri] = useState({uri: connection.photos[0].path});
   const calculateAge = (dob) => {
     return moment().diff(moment(dob, "DD/MM/YYYY"), "years");
   };
@@ -15,7 +16,10 @@ const ProfileCard = ({ connection }) => {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={{ uri: connection.photos[0].path }} />
+      <Image style={styles.image} 
+        source={imageUri}
+        onError={()=> setImageUri(require('../assets/pic.png'))}
+      />
       <View style={styles.details}>
         <Text style={styles.name}>
           {connection.first_name} {connection.last_name},{" "}

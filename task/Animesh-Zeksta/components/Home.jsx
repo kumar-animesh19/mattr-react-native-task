@@ -94,20 +94,14 @@ const Home = () => {
           <Text style={styles.refreshButtonText}>Refresh</Text>
         </TouchableOpacity>
       </View>
-      {connections.length === 0 ? (
-        <View style={styles.noDataContainer}>
-          <Text style={styles.noDataText}>No data found</Text>
-        </View>
-      ) : (
-        <ScrollView
-          contentContainerStyle={styles.listContainer}
-          showsVerticalScrollIndicator={false}
-        >
-          {connections.map((connection, index) => (
-            <ProfileCard key={index} connection={connection} />
-          ))}
-        </ScrollView>
-      )}
+      <ScrollView
+        contentContainerStyle={styles.listContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        {connections.map((connection, index) => (
+          <ProfileCard key={index} connection={connection} />
+        ))}
+      </ScrollView>
     </View>
   );
 };
@@ -145,17 +139,6 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     paddingBottom: 30,
-  },
-  noDataContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: 50,
-  },
-  noDataText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#ce1694",
   },
 });
 

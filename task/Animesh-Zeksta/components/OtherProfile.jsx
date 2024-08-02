@@ -51,7 +51,7 @@ const OtherProfile = () => {
             <Image
               key={index}
               source={{ uri: image.path }}
-              style={[styles.image, { width: screenWidth }]}
+              style={styles.image}
             />
           ))}
         </ScrollView>
@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     height: 400,
   },
   image: {
+    width: screenWidth,
     height: 400,
     resizeMode: "cover",
   },
