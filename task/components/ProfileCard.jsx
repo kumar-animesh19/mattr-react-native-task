@@ -1,30 +1,34 @@
-import React, {useState} from "react";
+import React, { useState, useCallback, memo } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import moment from "moment";
 import { useNavigation } from "@react-navigation/native";
 
-const ProfileCard = ({ connection, index }) => {
+const ProfileCard = memo(({ connection, index }) => {
   const navigation = useNavigation();
-  const [imageUri, setImageUri] = useState({uri: connection.photos[0].path});
-  const calculateAge = (dob) => {
-    return moment().diff(moment(dob, "DD/MM/YYYY"), "years");
-  };
+  const [imageUri, setImageUri] = useState({ uri: connection.photos[0].path });
 
-  const handleViewProfile = () => {
+  const calculateAge = useCallback((dob) => {
+    return moment().diff(moment(dob, "DD/MM/YYYY"), "years");
+  }, []);
+
+  const handleViewProfile = useCallback(() => {
     navigation.navigate("OtherProfile", { connection });
-  };
+  }, [navigation, connection]);
+
+  const handleImageError = () => setImageUri(require("../assets/pic.png"));
 
   return (
     <View style={styles.container}>
-      <Image style={styles.image} 
+      <Image
+        style={styles.image}
         source={imageUri}
-        onError={()=> setImageUri(require('../assets/pic.png'))}
+        onError={handleImageError}
       />
       {index === 0 && (
-          <View style={styles.topMatchLabel}>
-            <Text style={styles.topMatchText}>Top Match</Text>
-          </View>
-        )}
+        <View style={styles.topMatchLabel}>
+          <Text style={styles.topMatchText}>Top Match</Text>
+        </View>
+      )}
       <View style={styles.details}>
         <Text style={styles.name}>
           {connection.first_name} {connection.last_name},{" "}
@@ -42,7 +46,7 @@ const ProfileCard = ({ connection, index }) => {
       </View>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -65,19 +69,11 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     paddingHorizontal: 10,
     paddingVertical: 5,
+    zIndex: 1,
   },
   topMatchText: {
     color: "white",
     fontWeight: "bold",
-  },
-  card: {
-    backgroundColor: "#ce1694",
-    borderRadius: 10,
-    marginBottom: 20,
-    paddingHorizontal: 70,
-    paddingVertical: 30,
-    alignItems: "center",
-    position: "relative",
   },
   details: {
     backgroundColor: "#f8f9fe",

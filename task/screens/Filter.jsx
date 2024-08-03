@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import CustomRadioButton from "./CustomRadioButton";
+import CustomRadioButton from "../components/CustomRadioButton";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 
@@ -22,19 +22,19 @@ const Filter = () => {
     { label: "40+", value: "40+" },
   ];
 
-  const handleClearAll = () => {
-    setSelectedGender();
-    setSelectedAge();
-    setSelectedValue();
-  };
+  const handleClearAll = useCallback(() => {
+    setSelectedGender(undefined);
+    setSelectedAge(undefined);
+    setSelectedValue(undefined);
+  }, []);
 
-  const handleApplyFilter = () => {
+  const handleApplyFilter = useCallback(() => {
     navigation.navigate("Activity", {
       gender: selectedGender,
       age: selectedAge,
       value: selectedValue,
     });
-  };
+  }, [navigation, selectedGender, selectedAge, selectedValue]);
 
   return (
     <View style={styles.container}>
@@ -44,12 +44,12 @@ const Filter = () => {
         </TouchableOpacity>
         <Text style={styles.filterText}>Filter</Text>
         <TouchableOpacity onPress={handleClearAll}>
-          <Text style={styles.cancelText}>Clear All</Text>
+          <Text style={styles.clearText}>Clear All</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.divider} />
       <View style={styles.radioGroupContainer}>
-        <Text style={styles.gender}>Gender</Text>
+        <Text style={styles.label}>Gender</Text>
         <CustomRadioButton
           options={genderOptions}
           selectedOption={selectedGender}
@@ -58,7 +58,7 @@ const Filter = () => {
       </View>
       <View style={styles.divider} />
       <View style={styles.radioGroupContainer}>
-        <Text style={styles.gender}>Age Ranges</Text>
+        <Text style={styles.label}>Age Ranges</Text>
         <CustomRadioButton
           options={ageOptions}
           selectedOption={selectedAge}
@@ -67,11 +67,11 @@ const Filter = () => {
       </View>
       <View style={styles.divider} />
       <View style={styles.radioGroupContainer}>
-        <Text style={styles.gender}>Sort by</Text>
+        <Text style={styles.label}>Sort by</Text>
         <View style={styles.pickerContainer}>
           <Picker
             selectedValue={selectedValue}
-            onValueChange={(itemValue) => setSelectedValue(itemValue)}
+            onValueChange={setSelectedValue}
             style={styles.picker}
           >
             <Picker.Item label="--- Select ---" value="" />
@@ -89,6 +89,7 @@ const Filter = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     paddingVertical: 50,
     paddingHorizontal: 15,
     backgroundColor: "#e8dfe5",
@@ -107,12 +108,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
+  clearText: {
+    color: "#ce1694",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
   divider: {
     height: 1,
     backgroundColor: "#ccc",
     marginVertical: 20,
   },
-  gender: {
+  label: {
     fontSize: 18,
     fontWeight: "bold",
     marginVertical: 10,

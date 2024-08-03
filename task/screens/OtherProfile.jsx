@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   View,
   Image,
@@ -21,15 +21,18 @@ const OtherProfile = () => {
   const route = useRoute();
   const { connection } = route.params;
 
-  const calculateAge = (dob) => {
+  const calculateAge = useCallback((dob) => {
     return moment().diff(moment(dob, "DD/MM/YYYY"), "years");
-  };
+  }, []);
 
-  const onScroll = (event) => {
+  const onScroll = useCallback((event) => {
     const contentOffsetX = event.nativeEvent.contentOffset.x;
     const index = Math.floor(contentOffsetX / screenWidth);
     setCurrentPage(index);
-  };
+  }, []);
+
+  const { photos, first_name, last_name, dob, location, bio, interests } =
+    connection;
 
   return (
     <View style={styles.container}>
@@ -47,7 +50,7 @@ const OtherProfile = () => {
           scrollEventThrottle={16}
           style={styles.imageCarousel}
         >
-          {connection.photos.map((image, index) => (
+          {photos.map((image, index) => (
             <Image
               key={index}
               source={{ uri: image.path }}
@@ -56,7 +59,7 @@ const OtherProfile = () => {
           ))}
         </ScrollView>
         <View style={styles.pagination}>
-          {connection.photos.map((_, index) => (
+          {photos.map((_, index) => (
             <View
               key={index}
               style={[
@@ -72,8 +75,7 @@ const OtherProfile = () => {
       <View style={styles.details}>
         <View style={styles.likeButton}>
           <Text style={styles.name}>
-            {connection.first_name} {connection.last_name},{" "}
-            {calculateAge(connection.dob)}
+            {first_name} {last_name}, {calculateAge(dob)}
           </Text>
           <TouchableOpacity onPress={() => setLiked(!liked)}>
             <Icon
@@ -85,12 +87,12 @@ const OtherProfile = () => {
         </View>
 
         <Text style={styles.location}>
-          {connection.location.city}, {connection.location.country}
+          {location.city}, {location.country}
         </Text>
-        <Text style={styles.description}>{connection.bio}</Text>
+        <Text style={styles.description}>{bio}</Text>
         <Text style={styles.interestText}>Interests</Text>
         <View style={styles.interestRow}>
-          {connection.interests.map((interest, index) => (
+          {interests.map((interest, index) => (
             <View style={styles.interestCol} key={index}>
               <Text style={styles.interest}>{interest.name}</Text>
             </View>
@@ -102,6 +104,9 @@ const OtherProfile = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   backButton: {
     position: "absolute",
     top: 50,
@@ -136,7 +141,6 @@ const styles = StyleSheet.create({
   details: {
     paddingHorizontal: 20,
     paddingVertical: 20,
-    paddingBottom: 20,
   },
   name: {
     fontSize: 22,
@@ -157,6 +161,7 @@ const styles = StyleSheet.create({
   },
   interestRow: {
     flexDirection: "row",
+    flexWrap: "wrap",
     marginVertical: 10,
   },
   interestCol: {
@@ -174,6 +179,7 @@ const styles = StyleSheet.create({
   likeButton: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 

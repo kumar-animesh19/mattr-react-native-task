@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   View,
   Image,
@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
-  Animated,
 } from "react-native";
 import data from "../data.json";
 import moment from "moment";
@@ -20,18 +19,21 @@ const UserProfile = () => {
   const navigation = useNavigation();
   const [currentPage, setCurrentPage] = useState(0);
 
-  const calculateAge = (dob) => {
+  const calculateAge = useCallback((dob) => {
     return moment().diff(moment(dob, "DD/MM/YYYY"), "years");
-  };
+  }, []);
 
-  const onScroll = (event) => {
+  const onScroll = useCallback((event) => {
     const contentOffsetX = event.nativeEvent.contentOffset.x;
     const index = Math.floor(contentOffsetX / screenWidth);
     setCurrentPage(index);
-  };
+  }, []);
+
+  const { photos, first_name, last_name, dob, location, bio, interests } =
+    data[0];
 
   return (
-    <View>
+    <View style={styles.container}>
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.goBack()}
@@ -46,7 +48,7 @@ const UserProfile = () => {
           scrollEventThrottle={16}
           style={styles.imageCarousel}
         >
-          {data[0].photos.map((image, index) => (
+          {photos.map((image, index) => (
             <Image
               key={index}
               source={{ uri: image.path }}
@@ -55,7 +57,7 @@ const UserProfile = () => {
           ))}
         </ScrollView>
         <View style={styles.pagination}>
-          {data[0].photos.map((_, index) => (
+          {photos.map((_, index) => (
             <View
               key={index}
               style={[
@@ -70,15 +72,15 @@ const UserProfile = () => {
       </View>
       <View style={styles.details}>
         <Text style={styles.name}>
-          {data[0].first_name} {data[0].last_name}, {calculateAge(data[0].dob)}
+          {first_name} {last_name}, {calculateAge(dob)}
         </Text>
         <Text style={styles.location}>
-          {data[0].location.city}, {data[0].location.country}
+          {location.city}, {location.country}
         </Text>
-        <Text style={styles.description}>{data[0].bio}</Text>
+        <Text style={styles.description}>{bio}</Text>
         <Text style={styles.interestText}>Interests</Text>
         <View style={styles.interestRow}>
-          {data[0].interests.map((interest, index) => (
+          {interests.map((interest, index) => (
             <View style={styles.interestCol} key={index}>
               <Text style={styles.interest}>{interest.name}</Text>
             </View>
@@ -90,6 +92,9 @@ const UserProfile = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   backButton: {
     position: "absolute",
     top: 50,
@@ -124,7 +129,6 @@ const styles = StyleSheet.create({
   details: {
     paddingHorizontal: 20,
     paddingVertical: 20,
-    paddingBottom: 20,
   },
   name: {
     fontSize: 22,
@@ -145,6 +149,7 @@ const styles = StyleSheet.create({
   },
   interestRow: {
     flexDirection: "row",
+    flexWrap: "wrap",
     marginVertical: 10,
   },
   interestCol: {

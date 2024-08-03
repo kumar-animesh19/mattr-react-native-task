@@ -1,7 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-const CustomRadioButton = ({ options, selectedOption, onSelect }) => {
+const CustomRadioButton = memo(({ options, selectedOption, onSelect }) => {
   return (
     <View style={styles.container}>
       {options.map((option) => (
@@ -25,7 +25,7 @@ const CustomRadioButton = ({ options, selectedOption, onSelect }) => {
       ))}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   selectedText: {
-    color: "white",
+    color: "#fff",
   },
 });
 
